@@ -4,18 +4,20 @@ const addEmployeesBtn = document.querySelector('#add-employees-btn');
 
 const collectEmployees = function () {
   const employees = [];
-  let continueAdding = true;
+  let addingEmployee = true;
 
-  while (continueAdding) {
-    const firstName = prompt('Enter the employees first name:');
-    const lastName = prompt("Enter the employees last name:");
-    const salary = prompt("Enter the employees salary:");
+  while (addingEmployee) {
+    const firstName = prompt("Enter the employee's first name:");
+    const lastName = prompt("Enter the employee's last name:");
+    const salary = parseFloat(prompt("Enter the employee's salary:"));
 
-    salary - isNaN(salary) ? 0 : parseFloat(salary);
+    if (isNaN(salary)) {
+      salary = 0;
+    }
 
     employees.push({ firstName, lastName, salary});
 
-    continueAdding = confirm("Would you like to add another employee?");
+    addingEmployee = confirm("Do you want to add another employee?");
   }
 
   return employees;
@@ -23,17 +25,21 @@ const collectEmployees = function () {
 };
 
 const displayAverageSalary = function (employeesArray) {
-  const totalSalary = employeesArray.reduce((total, employee) => total + employee.salary, 0);
+  if (employeesArray.length === 0) return; 
+  
+  const totalSalary = employeesArray.reduce((acc, curr) => acc + curr.salary, 0);
   const averageSalary = totalSalary / employeesArray.length;
 
   console.log(`The average salary is ${employeesArray.length} employee(s) is $${averageSalary.toFixed(2)}`);
 };
 
 const getRandomEmployee = function (employeesArray) {
+  if(employeesArray.length === 0) return;
+  
   const randomIndex = Math.floor(Math.random() * employeesArray.length);
   const randomEmployee = employeesArray[randomIndex];
 
-  console.log(`Congratulations to ${randomEmployee.firstName} ${randomEmployee.lastName}! You are the lucky winner of the $${randomEmployee.salary} bonus!`)
+  console.log(`Congratulations to ${randomEmployee.firstName} ${randomEmployee.lastName},our random drawing winner!`);
 };
 
 /*
